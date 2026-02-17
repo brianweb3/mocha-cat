@@ -17,17 +17,17 @@ export const useTamagotchiStore = create((set) => ({
   frameCount: 26,
   bgUrl: "./backgrounds/bg-mocha.png",
 
-  // Характеристики тамагочи
+  // Tamagotchi stats
   stats: {
-    hunger: 100, // Голод (0-100)
-    happiness: 100, // Счастье (0-100)
-    health: 100, // Здоровье (0-100)
-    energy: 100, // Энергия (0-100)
+    hunger: 100, // Hunger (0-100)
+    happiness: 100, // Happiness (0-100)
+    health: 100, // Health (0-100)
+    energy: 100, // Energy (0-100)
   },
 
   toggleAutoRotate: () => set((state) => ({ autoRotate: !state.autoRotate })),
 
-  // Функции для изменения характеристик
+  // Functions to modify stats
   feed: () => set((state) => ({
     stats: {
       ...state.stats,
@@ -59,7 +59,7 @@ export const useTamagotchiStore = create((set) => ({
     }
   })),
 
-  // Уменьшение характеристик со временем
+  // Decrease stats over time
   decreaseStats: () => set((state) => ({
     stats: {
       hunger: Math.max(0, state.stats.hunger - 0.5),

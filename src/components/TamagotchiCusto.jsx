@@ -117,7 +117,7 @@ export default function TamagotchiCusto(props) {
     audio.play().catch(() => {}); // Suppress errors if audio fails
   };
 
-  // Gestion du clic sur les boutons avec son (оригинальное управление)
+  // Handle button clicks with sound (original controls)
   const handlePointerDown = (event) => {
     const clickedButton = event.object.name;
     
@@ -133,14 +133,14 @@ export default function TamagotchiCusto(props) {
 
     switch (clickedButton) {
       case "bouton1":
-        // Левая кнопка - сон (переключает анимацию сна)
+        // Left button - sleep (toggles sleep animation)
         dispatch({ type: "SLEEP_TOGGLE" });
         setIsEating(false);
         playSound("sleep");
         break;
       case "bouton2":
-        // Средняя кнопка - еда (показывает анимацию еды)
-        // Выключаем сон, если он включен
+        // Middle button - food (shows eating animation)
+        // Turn off sleep if it's enabled
         if (currentState.flags.isSleeping) {
           dispatch({ type: "SLEEP_TOGGLE" });
         }
@@ -156,8 +156,8 @@ export default function TamagotchiCusto(props) {
         playSound("eat");
         break;
       case "bouton3":
-        // Правая кнопка - игра (показывает анимацию игры)
-        // Выключаем сон, если он включен
+        // Right button - play (shows play animation)
+        // Turn off sleep if it's enabled
         if (currentState.flags.isSleeping) {
           dispatch({ type: "SLEEP_TOGGLE" });
         }
