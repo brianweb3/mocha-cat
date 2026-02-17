@@ -49,6 +49,10 @@ export default function ChatPanel() {
         }));
       messages.push({ role: "user", content: userMessage });
 
+      if (!CLAUDE_API_KEY) {
+        throw new Error("Claude API key is not configured");
+      }
+
       const response = await fetch(CLAUDE_API_URL, {
         method: "POST",
         headers: {
