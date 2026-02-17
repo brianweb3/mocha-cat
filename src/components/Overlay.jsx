@@ -154,15 +154,6 @@ export default function Overlay() {
     { key: "achievements", label: "Achievements" },
   ];
 
-  const handleCopyCA = () => {
-    const ca = "ExWWPjURDHemTh8PS6vuKB17bDj9Z6nA9z2uKV8Kpump";
-    navigator.clipboard.writeText(ca).then(() => {
-      showToast("CA copied to clipboard!", "success");
-    }).catch(() => {
-      showToast("Failed to copy", "error");
-    });
-  };
-
   const handleToggleMusic = () => {
     dispatch({ type: "TOGGLE_MUSIC" });
     showToast(state.flags.musicEnabled ? "Music on" : "Music off", "info");
@@ -180,20 +171,6 @@ export default function Overlay() {
         >
           X
         </a>
-        <a 
-          href="https://pump.fun/coin/ExWWPjURDHemTh8PS6vuKB17bDj9Z6nA9z2uKV8Kpump" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="top-link-button"
-        >
-          Pumpfun
-        </a>
-        <button 
-          onClick={handleCopyCA}
-          className="top-link-button top-link-button--copy"
-        >
-          Copy CA
-        </button>
         <button 
           onClick={handleToggleMusic}
           className={`top-link-button top-link-button--sound ${state.flags.musicEnabled ? "top-link-button--sound-on" : ""}`}
