@@ -27,8 +27,9 @@ export default function Overlay() {
 
   useEffect(() => {
     initToast();
-    // Start music if enabled by default
-    if (state.flags.musicEnabled) {
+    // Start music if enabled by default (check both state and initial state)
+    const currentState = getState();
+    if (currentState.flags.musicEnabled) {
       audio.play().catch(() => {});
       setIsMusicPlaying(true);
     }
