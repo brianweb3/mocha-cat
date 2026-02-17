@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 export const useTamagotchiStore = create((set) => ({
-  theme: "mocha", // Theme par défaut
+  theme: "mocha", // Default theme
   autoRotate: false,
 
   textures: {
@@ -135,7 +135,7 @@ export const useTamagotchiStore = create((set) => ({
         bgUrl: themes[theme].background,
       });
     } else {
-      console.warn(`⚠️ Thème inconnu : ${theme}`);
+      console.warn(`⚠️ Unknown theme: ${theme}`);
     }
   },
 
