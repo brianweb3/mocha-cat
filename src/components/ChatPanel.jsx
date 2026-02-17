@@ -56,9 +56,8 @@ export default function ChatPanel() {
       const response = await fetch(CLAUDE_API_URL, {
         method: "POST",
         headers: {
-          "x-api-key": CLAUDE_API_KEY,
-          "anthropic-version": "2023-06-01",
-          "content-type": "application/json",
+          "Content-Type": "application/json",
+          ...(CLAUDE_API_KEY && { "x-api-key": CLAUDE_API_KEY }),
         },
         body: JSON.stringify({
           model: "claude-3-haiku-20240307",
