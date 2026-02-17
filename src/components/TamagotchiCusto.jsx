@@ -22,32 +22,53 @@ export default function TamagotchiCusto(props) {
   const isSleeping = state.flags.isSleeping;
   const [isEating, setIsEating] = useState(false);
 
-  // Déterminer la texture active
-  const currentScreen = isSleeping
-    ? textures.sleep
-    : isEating
-    ? textures.eat
-    : textures.screen;
-
-  // Chargement des textures
+  // Load all texture variants upfront to prevent re-renders
   const mainTexture = textures.main
     ? useLoader(TextureLoader, textures.main)
     : null;
 
-  const screenTextures = useLoader(
+  const screenTexturesNormal = useLoader(
     TextureLoader,
     Array.from(
       { length: frameCount },
-      (_, i) => `${currentScreen}${String(i + 1).padStart(4, "0")}.png`
+      (_, i) => `${textures.screen}${String(i + 1).padStart(4, "0")}.png`
     )
   );
 
-  if (screenTextures.length > 0) {
-    screenTextures.forEach((texture) => {
-      texture.flipY = false;
-      texture.needsUpdate = true;
+  const screenTexturesSleep = useLoader(
+    TextureLoader,
+    Array.from(
+      { length: frameCount },
+      (_, i) => `${textures.sleep}${String(i + 1).padStart(4, "0")}.png`
+    )
+  );
+
+  const screenTexturesEat = useLoader(
+    TextureLoader,
+    Array.from(
+      { length: frameCount },
+      (_, i) => `${textures.eat}${String(i + 1).padStart(4, "0")}.png`
+    )
+  );
+
+  // Select active textures based on state
+  const screenTextures = isSleeping
+    ? screenTexturesSleep
+    : isEating
+    ? screenTexturesEat
+    : screenTexturesNormal;
+
+  // Configure all texture arrays
+  useEffect(() => {
+    [screenTexturesNormal, screenTexturesSleep, screenTexturesEat].forEach(textureArray => {
+      if (textureArray && textureArray.length > 0) {
+        textureArray.forEach((texture) => {
+          texture.flipY = false;
+          texture.needsUpdate = true;
+        });
+      }
     });
-  }
+  }, [screenTexturesNormal, screenTexturesSleep, screenTexturesEat]);
 
   const screenRef = useRef();
 
@@ -57,7 +78,7 @@ export default function TamagotchiCusto(props) {
 
     let frameIndex = 0;
     const interval = setInterval(() => {
-      if (screenRef.current) {
+      if (screenRef.current && screenTextures[frameIndex]) {
         screenRef.current.material.map = screenTextures[frameIndex];
         screenRef.current.material.needsUpdate = true;
         frameIndex = (frameIndex + 1) % screenTextures.length;
@@ -65,7 +86,7 @@ export default function TamagotchiCusto(props) {
     }, 100);
 
     return () => clearInterval(interval);
-  }, [screenTextures]);
+  }, [screenTextures, isSleeping, isEating]);
 
   // Appliquer les textures et couleurs aux matériaux du modèle
   useEffect(() => {
