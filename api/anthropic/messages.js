@@ -11,7 +11,8 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const apiKey = process.env.VITE_CLAUDE_API_KEY || req.headers['x-api-key'];
+  // Get API key from environment variable (Vercel) or request header
+  const apiKey = process.env.VITE_CLAUDE_API_KEY || process.env.CLAUDE_API_KEY || req.headers['x-api-key'];
   
   if (!apiKey) {
     return res.status(401).json({ error: 'API key is required' });
@@ -38,6 +39,6 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error('Proxy error:', error);
     res.setHeader('Access-Control-Allow-Origin', '*');
-    return res.status(500).json({ error: 'Internal server error' });
+    return res.status(500).json({ error: 'Internal server error', message: error.message });
   }
 }
