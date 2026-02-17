@@ -36,9 +36,8 @@ export default {
     },
   },
   build: {
-    outDir: '../dist', // Output in the dist/ folder
+    outDir: 'dist', // Output in the dist/ folder
     emptyOutDir: true, // Empty the folder first
     sourcemap: true, // Add sourcemap
-    base: '/tamagotchi/', // Assurer que les chemins sont relatifs à ce sous-dossier
   },
 }
